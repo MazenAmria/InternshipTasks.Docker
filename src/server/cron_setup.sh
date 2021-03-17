@@ -7,8 +7,8 @@ temp_file=~/temp.$(date "+%Y.%m.%d-%H.%M.%S")
 crontab -l > $temp_file
 
 # add the stats_collector job
-sed -i "/^.*~\/collecting_stats.sh$/d" $temp_file
-echo "* 1 * * * ~/stats_collector.py" >> $temp_file
+sed -i "/^.*stats_collector.py$/d" $temp_file
+echo "* 1 * * * stats_collector.py" >> $temp_file
 
 # reload the crontab with the edited temp file
 crontab $temp_file
