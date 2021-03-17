@@ -1,3 +1,5 @@
+#!/bin/python3
+
 from tracer import trace
 import logging
 

@@ -1,3 +1,5 @@
+#!/bin/python3
+
 from collections import OrderedDict
 from db_connector import submit_stats
 from tracer import trace

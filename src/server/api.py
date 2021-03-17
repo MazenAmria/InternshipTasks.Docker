@@ -1,3 +1,5 @@
+#!/bin/python3
+
 from flask import Flask, jsonify
 from stats_collector import *
 import logging
