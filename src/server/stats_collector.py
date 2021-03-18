@@ -1,8 +1,8 @@
 #!/bin/python3
 
-from collections import OrderedDict
-from db_connector import submit_stats
+from db_connector import DBConnector
 from tracer import trace
+from pprint import pprint
 import datetime
 import psutil
 import logging
@@ -29,14 +29,14 @@ def collect_cpu_stats(interval=None):
 
   Retruns
   -------
-    * `OrderedDict` :
-      an ordered dictionary containing
+    * `dict` :
+      a dictionary containing
       the statistics of CPU.
   """
   
-  return OrderedDict([
-    ("usage_percentage", psutil.cpu_percent(interval))
-  ])
+  return {
+    "usage_percentage": psutil.cpu_percent(interval)
+  }
 
 @trace(logger)
 def collect_memory_stats():
@@ -67,12 +67,12 @@ def collect_memory_stats():
 
   Retruns
   -------
-    * `OrderedDict` :
-      an ordered dictionary containing
+    * `dict` :
+      a dictionary containing
       the statistics of the Memory.
   """
 
-  return psutil.virtual_memory()._asdict()
+  return dict(psutil.virtual_memory()._asdict())
 
 @trace(logger)
 def collect_disk_stats(path="/"):
@@ -95,12 +95,12 @@ def collect_disk_stats(path="/"):
 
   Retruns
   -------
-    * `OrderedDict` :
-      an ordered dictionary containing
+    * `dict` :
+      a dictionary containing
       the statistics of the Disk.
   """
 
-  return psutil.disk_usage(path)._asdict()
+  return dict(psutil.disk_usage(path)._asdict())
 
 if __name__ == "__main__":
   stats = {
@@ -109,4 +109,6 @@ if __name__ == "__main__":
     "memory_stats": collect_memory_stats(),
     "disk_stats": collect_disk_stats()
   }
-  submit_stats(stats)
+  conn = DBConnector()
+  conn.submit_stats(stats)
+  conn.close()

@@ -3,6 +3,14 @@
 from functools import wraps
 
 def trace(logger):
+  """A decorator that enable logging function
+  name when it's called.
+
+  Parameters
+  ----------
+    * `logger`: the logging object that will
+      be used to log messages.
+  """
   def wrapper(func):
     @wraps(func)
     def logging_enabled(*args, **kwargs):
