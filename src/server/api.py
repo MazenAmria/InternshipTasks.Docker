@@ -1,5 +1,3 @@
-#!/bin/python3
-
 from flask import Flask, jsonify
 from db_connector import DBConnector
 from stats_collector import *
@@ -93,4 +91,4 @@ def get_disk_stats():
   return jsonify(res)
 
 if __name__ == "__main__":
-  app.run()
+  app.run(host="0.0.0.0", debug=True)

@@ -1,5 +1,3 @@
-#!/bin/python3
-
 import pymongo
 from pymongo import MongoClient
 import os
@@ -28,25 +26,16 @@ class DBConnector:
   """
   @trace(logger)
   def __init__(self):
-    # self.client = MongoClient(
-    #   os.getenv("DB_HOST"),
-    #   os.getenv("DB_PORT")
-    # )
-    # self.db = self.client[os.getenv("DB_NAME")]
-    # self.db.authenticate(
-    #   os.getenv("DB_USER"),
-    #   os.getenv("DB_PASSWORD")
-    # )
-    # self.collection = self.db[os.getenv("DB_COLLECTION")]
-
     self.client = MongoClient(
-      host="127.0.0.1",
-      port=27017
+      host=os.getenv("DB_HOST"),
+      port=int(os.getenv("DB_PORT")),
+      username=os.getenv("DB_USER"),
+      password=os.getenv("DB_PASSWORD"),
+      authSource=os.getenv("DB_NAME")
     )
-    self.db = self.client["server_monitor"]
-    self.db.authenticate("admin", "admin")
-    self.collection = self.db["sys_stats"]
-  
+    self.db = self.client[os.getenv("DB_NAME")]
+    self.collection = self.db[os.getenv("DB_COLLECTION")]
+
   @trace(logger)
   def close(self):
     """Close the connection with the database

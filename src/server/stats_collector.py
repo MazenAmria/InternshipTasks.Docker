@@ -1,5 +1,3 @@
-#!/bin/python3
-
 from db_connector import DBConnector
 from tracer import trace
 from pprint import pprint

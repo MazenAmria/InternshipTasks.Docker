@@ -1,5 +1,3 @@
-#!/bin/python3
-
 from functools import wraps
 
 def trace(logger):
