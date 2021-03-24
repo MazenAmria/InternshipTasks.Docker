@@ -2,7 +2,6 @@ from flask import Flask, jsonify
 from db_connector import DBConnector
 from stats_collector import *
 import logging
-import psutil
 app = Flask(__name__)
 
 logging.basicConfig()

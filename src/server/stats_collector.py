@@ -5,6 +5,8 @@ import datetime
 import psutil
 import logging
 
+psutil.PROCFS_PATH = "/etc/__host_proc__"
+
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 

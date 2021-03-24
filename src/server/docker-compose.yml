@@ -11,3 +11,5 @@ services:
       DB_COLLECTION: stats
       DB_USER: admin
       DB_PASSWORD: admin
+    volumes:
+      - /proc:/etc/__host_proc__
