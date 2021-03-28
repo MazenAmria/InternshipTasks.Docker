@@ -8,13 +8,16 @@ crontab -l > $temp_file
 
 # add the stats_collector job
 sed -i "/^.*stats_collector.py$/d" $temp_file
-echo "* 1 * * * python /usr/src/app/stats_collector.py" >> $temp_file
+echo "0 * * * * python /usr/src/app/stats_collector.py" >> $temp_file
 
 # reload the crontab with the edited temp file
 crontab $temp_file
 
 # remove the tempfile
 rm -f $temp_file
+
+# start the crontab
+/usr/sbin/crond  &
 
 # start the flask application
 python /usr/src/app/api.py
