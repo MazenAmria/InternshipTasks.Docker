@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, request, jsonify
 from db_connector import DBConnector
 from stats_collector import *
 import logging
@@ -8,86 +8,42 @@ logging.basicConfig()
 
 conn = DBConnector()
 
-@app.route("/cpu/current/")
-def get_currnet_cpu_stats():
-  """handler to return the current
-  CPU statistics as a response.
+@app.route("/<resource>/current/")
+def get_currnet_stats(resource):
+	"""handler to return the current
+	statistics of a certain resource
+	as a response.
 
-  Path: `/cpu/current/`
+	Path: `/<resource>/current/`
 
-  Response: `json` object contains the
-  current CPU statistics.
-  """
-  res = collect_cpu_stats()
-  return jsonify(res)
+	Response: `json` object contains the
+	current statistics of the desired resource.
+	"""
 
-@app.route("/cpu/")
-def get_cpu_stats():
-  """handler to return the CPU 
-  statistics for the last 24 hours.
+	assert resource == request.view_args['resource']
 
-  Path: `/cpu/`
+	res = collect_stats(resource)
+	
+	return jsonify(res)
 
-  Response: `json` object contains a list
-  of objects denoting the CPU statistics
-  for the last 24 hours.
-  """
-  res = conn.get_cpu_stats()
-  return jsonify(res)
+@app.route("/<resource>/")
+def get_stats(resource):
+	"""handler to return the statistics
+	of a certain resource for the last `n` hours.
 
-@app.route("/memory/current/")
-def get_currnet_mem_stats():
-  """handler to return the current
-  Memory statistics as a response.
+	Path: `/<resource>/?n=24`
 
-  Path: `/memory/current/`
+	Response: `json` object contains a list
+	of objects denoting the statistics of the
+	desired resource for the last `n` hours.
+	"""
 
-  Response: `json` object contains the
-  current Memory statistics.
-  """
-  res = collect_memory_stats()
-  return jsonify(res)
+	assert resource == request.view_args['resource']
+	n = request.args.get('n', type=int)
 
-@app.route("/memory/")
-def get_mem_stats():
-  """handler to return the Memory 
-  statistics for the last 24 hours.
+	res = conn.get_stats(resource, n)
 
-  Path: `/memory/`
-
-  Response: `json` object contains a list
-  of objects denoting the Memory statistics
-  for the last 24 hours.
-  """
-  res = conn.get_mem_stats()
-  return jsonify(res)
-
-@app.route("/disk/current/")
-def get_currnet_disk_stats():
-  """handler to return the current
-  Disk statistics as a response.
-
-  Path: `/disk/current/`
-
-  Response: `json` object contains the
-  current Disk statistics.
-  """
-  res = collect_disk_stats()
-  return jsonify(res)
-
-@app.route("/disk/")
-def get_disk_stats():
-  """handler to return the Disk 
-  statistics for the last 24 hours.
-
-  Path: `/disk/`
-
-  Response: `json` object contains a list
-  of objects denoting the Disk statistics
-  for the last 24 hours.
-  """
-  res = conn.get_disk_stats()
-  return jsonify(res)
+	return jsonify(res)
 
 if __name__ == "__main__":
   app.run(host="0.0.0.0", debug=True)
