@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# generate keys for the ssh connection
+ssh-keygen
+ssh-copy-id "$HOST_USER"@localhost
+
 # temp file to deal with the crontab
 temp_file=~/temp.$(date "+%Y.%m.%d-%H.%M.%S")
 

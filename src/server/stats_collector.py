@@ -1,3 +1,4 @@
+import os
 from os import popen
 from db_connector import DBConnector
 import json
@@ -9,7 +10,7 @@ logger.setLevel(logging.INFO)
 
 @trace(logger)
 def collect_stats(resource=None):
-	pipe = popen('python /opt/stats_collector.py')
+	pipe = popen(f'ssh {os.getenv("HOST_USER")}@localhost "python /opt/stats_collector.py"')
 	stats = json.loads(pipe.read())
 
 	if resource in stats.keys():
