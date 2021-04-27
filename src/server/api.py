@@ -8,8 +8,25 @@ logging.basicConfig()
 
 conn = DBConnector()
 
+@app.route("/current/")
+def get_currnet_stats():
+	"""handler to return the current
+	statistics of all resources
+	as a response.
+
+	Path: `/current/`
+
+	Response: `json` object with keys as resources
+	and values as objects containing the current 
+	statistics of that resource.
+	"""
+
+	res = collect_stats()
+	
+	return jsonify(res)
+
 @app.route("/<resource>/current/")
-def get_currnet_stats(resource):
+def get_currnet_resource_stats(resource):
 	"""handler to return the current
 	statistics of a certain resource
 	as a response.

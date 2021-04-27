@@ -13,7 +13,8 @@ def collect_stats(resource=None):
 	pipe = popen(f'ssh {os.getenv("HOST_USER")}@localhost "python /opt/stats_collector.py"')
 	stats = json.loads(pipe.read())
 
-	if resource in stats.keys():
+	if resource is not None \
+		and resource in stats.keys():
 		stats = stats[resource]
 
 	return stats
