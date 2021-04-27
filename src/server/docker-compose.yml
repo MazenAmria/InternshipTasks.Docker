@@ -11,4 +11,5 @@ services:
       DB_NAME: stats
       DB_USER: admin
       DB_PASSWORD: admin
-      HOST_USER: mazen
+      HOST_USER: root
+      HOST_PASSWORD: root

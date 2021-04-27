@@ -4,14 +4,26 @@ from db_connector import DBConnector
 import json
 from tracer import trace
 import logging
+import paramiko
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 @trace(logger)
 def collect_stats(resource=None):
-	pipe = popen(f'ssh {os.getenv("HOST_USER")}@localhost "python /opt/stats_collector.py"')
-	stats = json.loads(pipe.read())
+	ssh = paramiko.SSHClient()
+	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+	ssh.connect(
+		"127.0.0.1", 
+		username=os.getenv("HOST_USER"), 
+		password=os.getenv("HOST_PASSWORD")
+	)
+
+	cmd = "python /opt/stats_collector.py"
+	stdin, stdout, stderr = ssh.exec_command(cmd)
+	stats = json.loads(stdout.read())
+
+	ssh.close()
 
 	if resource is not None \
 		and resource in stats.keys():
