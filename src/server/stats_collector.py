@@ -14,7 +14,7 @@ def collect_stats(resource=None):
 	ssh = paramiko.SSHClient()
 	ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
 	ssh.connect(
-		"127.0.0.1", 
+		os.getenv("HOST"), 
 		username=os.getenv("HOST_USER"), 
 		password=os.getenv("HOST_PASSWORD")
 	)

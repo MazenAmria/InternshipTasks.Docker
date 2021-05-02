@@ -1,6 +1,11 @@
-FROM python:buster
+FROM centos:7
 
 EXPOSE 5000
+
+RUN yum install -y cronie python3
+
+RUN ln /usr/bin/python3 /usr/bin/python -f
+RUN ln /usr/bin/pip3 /usr/bin/pip -f
 
 RUN pip install --upgrade pip
 
