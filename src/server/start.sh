@@ -1,5 +1,9 @@
 #!/bin/sh
 
+# enable crond and start it
+systemctl enable crond
+systemctl start crond
+
 # temp file to deal with the crontab
 temp_file=~/temp.$(date "+%Y.%m.%d-%H.%M.%S")
 
