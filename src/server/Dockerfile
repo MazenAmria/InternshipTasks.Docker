@@ -4,14 +4,14 @@ EXPOSE 5000
 
 RUN yum install -y cronie python3
 
-RUN ln /usr/bin/python3 /usr/bin/python -f
-RUN ln /usr/bin/pip3 /usr/bin/pip -f
+RUN pip3 install --upgrade pip
 
-RUN pip install --upgrade pip
+COPY systemctl3.py /usr/bin/systemctl3
+RUN chmod a+x /usr/bin/systemctl3
 
 COPY . /usr/src/app
 
-RUN pip install -r /usr/src/app/requirements.txt
+RUN pip3 install -r /usr/src/app/requirements.txt
 
 HEALTHCHECK CMD curl --fail http://localhost:5000/memory || exit 1
 
