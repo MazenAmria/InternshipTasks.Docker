@@ -1,5 +1,3 @@
-#! /usr/bin/python3
-
 import pymongo
 from pymongo import MongoClient
 import os

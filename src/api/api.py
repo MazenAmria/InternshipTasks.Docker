@@ -1,4 +1,4 @@
-#! /usr/bin/python3
+#!/bin/python3
 
 from flask import Flask, request, jsonify
 from db_connector import DBConnector
